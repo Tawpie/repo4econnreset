@@ -17,51 +17,51 @@ import clickElement from "./clickElement";
  * @param  {String}   sWhichPage  The page object file that defines the getter
  */
 export default async (
-    sAction: "click" | "doubleClick",
-    sGetter: string,
-    sWhichPage: string
+  sAction: "click" | "doubleClick",
+  sGetter: string,
+  sWhichPage: string
 ) => {
-    const bVerbose: boolean = true;
-    if (bVerbose)
-        console.log(
-            "\ncPE - clickPageElement called with params\n  sAction: >%s<\n  sGetter: >%s<\n  sWhichPage: >%s<",
-            sAction,
-            sGetter,
-            sWhichPage
-        );
+  const bVerbose: boolean = false;
+  if (bVerbose)
+    console.log(
+      "\ncPE - clickPageElement called with params\n  sAction: >%s<\n  sGetter: >%s<\n  sWhichPage: >%s<",
+      sAction,
+      sGetter,
+      sWhichPage
+    );
 
-    /**
-     * import the page object class pointed to by sWhichPage
-     * and grab the selector using the getter
-     */
-    const sPathToModule: string = "../../pages/" + sWhichPage + ".page.js";
-    const cPageObject = require(sPathToModule).default;
-    const selectorToClick: Selector = cPageObject[sGetter];
-    if (bVerbose)
-        console.log(
-            "cPE -   selectorToClick resolved to >%s< with typeOf >%s<",
-            selectorToClick,
-            typeof selectorToClick
-        );
+  /**
+   * import the page object class pointed to by sWhichPage
+   * and grab the selector using the getter
+   */
+  const sPathToModule: string = "../../pages/" + sWhichPage + ".page.js";
+  const cPageObject = require(sPathToModule).default;
+  const selectorToClick: Selector = cPageObject[sGetter];
+  if (bVerbose)
+    console.log(
+      "cPE -   selectorToClick resolved to >%s< with typeOf >%s<",
+      selectorToClick,
+      typeof selectorToClick
+    );
 
-    /**
-     * The method to call on the element
-     * @type {String}
-     */
-    const action: "click" | "doubleClick" =
-        sAction === "doubleClick" ? "doubleClick" : "click";
+  /**
+   * The method to call on the element
+   * @type {String}
+   */
+  const action: "click" | "doubleClick" =
+    sAction === "doubleClick" ? "doubleClick" : "click";
 
-    // get the element and click it
-    const eElemToClick = await $(selectorToClick);
-    if (bVerbose)
-        console.log(
-            "cPE -   the selector successfully returned eElemToClick ",
-            eElemToClick
-        );
+  // get the element and click it
+  // const eElemToClick = await $(selectorToClick);
+  // if (bVerbose)
+  //   console.log(
+  //     "cPE -   the selector successfully returned eElemToClick ",
+  //     eElemToClick
+  //   );
 
-    await eElemToClick.click();
+  // await eElemToClick.click();
 
-    // make sure it's clickable then click it
-    // await clickElement(action, "selector", selectorToClick);
-    await pause("300ms");
+  // make sure it's clickable then click it
+  await clickElement(action, "selector", selectorToClick);
+  await pause("300ms");
 };
